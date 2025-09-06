@@ -1,6 +1,6 @@
 export default async function handler(req, res) {
   // URL del stream original
-  const baseUrl = 'http://186.121.206.197/live/daniel/';
+  const baseUrl = 'https://rt-esp.rttv.com/live/';
   
   // Obtiene la ruta del archivo (ej: index.m3u8 o 12345.ts) desde la URL
   const streamPath = req.query.path;
