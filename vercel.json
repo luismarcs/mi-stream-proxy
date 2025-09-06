@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/stream",
+      "destination": "http://186.121.206.197/live/daniel/index.m3u8"
+    }
+  ]
+}
