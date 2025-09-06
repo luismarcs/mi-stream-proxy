@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-  const baseUrl = 'http://186.121.206.197/live/daniel/';
+  const baseUrl = 'https://rt-esp.rttv.com/live/rtesp/';
   const streamPath = req.query.path;
   const targetUrl = baseUrl + streamPath;
 
