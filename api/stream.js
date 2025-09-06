@@ -1,9 +1,10 @@
 export default async function handler(req, res) {
   // La URL base de tu stream original
-  const baseUrl = 'https://rt-esp.rttv.com/live/rtesp/playlist_800Kb.m3u8';
+  const baseUrl = 'http://186.121.206.197/live/daniel/';
 
   // Obtenemos la parte de la URL que necesitamos (ej. index.m3u8 o 12345.ts)
-  const streamPath = req.query.path.join('/');
+  // ESTA ES LA LÍNEA CORREGIDA
+  const streamPath = req.query.path;
   const targetUrl = baseUrl + streamPath;
 
   try {
