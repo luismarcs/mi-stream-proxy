@@ -1,4 +1,9 @@
 {
+  "functions": {
+    "api/stream.js": {
+      "regions": ["sao1"]
+    }
+  },
   "rewrites": [
     {
       "source": "/stream/:path*",
