@@ -1,29 +1,32 @@
 export default async function handler(req, res) {
-  // La URL base de tu stream original
   const baseUrl = 'http://186.121.206.197/live/daniel/';
-
-  // Obtenemos la parte de la URL que necesitamos (ej. index.m3u8 o 12345.ts)
-  // ESTA ES LA LÍNEA CORREGIDA
   const streamPath = req.query.path;
   const targetUrl = baseUrl + streamPath;
 
   try {
-    // Hacemos la petición al servidor original
     const response = await fetch(targetUrl);
-
-    // Si el servidor original no responde bien, enviamos el error
     if (!response.ok) {
       return res.status(response.status).send(response.statusText);
     }
 
     const body = await response.arrayBuffer();
 
-    // ¡La parte más importante! Añadimos las cabeceras de permiso (CORS)
+    // Cabeceras de Permiso (CORS)
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-    // Enviamos el contenido del video (el playlist o el segmento) al navegador
+    // --- MEJORA DE VELOCIDAD ---
+    // Añadimos una cabecera de Caché para mejorar la velocidad
+    const isPlaylist = req.query.path.endsWith('.m3u8');
+    if (isPlaylist) {
+      // El playlist se actualiza a menudo, lo guardamos en caché por solo 3 segundos.
+      res.setHeader('Cache-Control', 'public, s-maxage=3, stale-while-revalidate=3');
+    } else {
+      // Los segmentos de video (.ts) no cambian, los guardamos por 10 minutos.
+      res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=600');
+    }
+
     res.send(Buffer.from(body));
 
   } catch (error) {
